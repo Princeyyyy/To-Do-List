@@ -51,6 +51,10 @@ public class HomeActivity extends AppCompatActivity {
     private String onlineUserId;
     private ProgressDialog loader;
 
+    private String key = "";
+    private String task;
+    private String description;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +165,19 @@ public class HomeActivity extends AppCompatActivity {
                 recyclerViewHolder.setDate(model.getDate());
                 recyclerViewHolder.setTask(model.getTask());
                 recyclerViewHolder.setDescription(model.getDescription());
+
+                recyclerViewHolder.mview.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        key = getRef(i).getKey();
+                        task = model.getTask();
+                        description = model.getDescription();
+
+
+                        updateTask();
+
+                    }
+                });
             }
 
             @NonNull
@@ -173,5 +190,75 @@ public class HomeActivity extends AppCompatActivity {
 
         mrecyclerView.setAdapter(adapter);
         adapter.startListening();
+    }
+
+    private void updateTask() {
+        AlertDialog.Builder myDialog = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.update_data, null);
+        myDialog.setView(view);
+
+        AlertDialog dialog = myDialog.create();
+
+        EditText mTask = view.findViewById(R.id.updateTask);
+        EditText mDescription = view.findViewById(R.id.updateDesc);
+
+        mTask.setText(task);
+        mTask.setSelection(task.length());
+        mDescription.setText(description);
+        mDescription.setSelection(description.length());
+
+        Button delButton = view.findViewById(R.id.deleteBtn);
+        Button updateButton = view.findViewById(R.id.updateBtn);
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                task = mTask.getText().toString().trim();
+                description = mDescription.getText().toString().trim();
+
+                String date = DateFormat.getDateInstance().format(new Date());
+
+                Model model = new Model(task,description,key,date);
+
+                reference.child(key).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(HomeActivity.this, "Task Has Been Updated Successfully", Toast.LENGTH_SHORT).show();
+                        }else{
+                            String error = task.getException().toString();
+                            Toast.makeText(HomeActivity.this, "Update Failed" + error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+                dialog.dismiss();
+
+            }
+        });
+
+
+        delButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference.child(key).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(HomeActivity.this, "Task Deleted Successfully", Toast.LENGTH_SHORT).show();
+                        }else{
+                            String error = task.getException().toString();
+                            Toast.makeText(HomeActivity.this, "Failed To Delete Task" + error, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
