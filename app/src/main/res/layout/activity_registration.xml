@@ -78,7 +78,7 @@
             />
 
         <Button
-            android:id="@+id/registrationButton"
+            android:id="@+id/signupButton"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="70dp"
             android:layout_marginRight="70dp"
@@ -119,6 +119,7 @@
         android:layout_marginRight="11dp"
         android:layout_marginBottom="30dp"
         android:adjustViewBounds="false"
+        android:onClick="onLoginClick"
         android:src="@drawable/ic_back_img" />
 
 </RelativeLayout>
