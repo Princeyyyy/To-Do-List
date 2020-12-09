@@ -28,7 +28,7 @@
                 android:fontFamily="@font/bungee"
                 android:text="Welcome\nBack"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="20sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
