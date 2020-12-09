@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.DragStartHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,11 +14,14 @@ import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -141,5 +145,33 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseRecyclerOptions<Model> options = new FirebaseRecyclerOptions.Builder<Model>()
+                .setQuery(reference,Model.class)
+                .build();
+
+        FirebaseRecyclerAdapter<Model, RecyclerViewHolder> adapter = new FirebaseRecyclerAdapter<Model, RecyclerViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull RecyclerViewHolder recyclerViewHolder, int i, @NonNull Model model) {
+                recyclerViewHolder.setDate(model.getDate());
+                recyclerViewHolder.setTask(model.getTask());
+                recyclerViewHolder.setDescription(model.getDescription());
+            }
+
+            @NonNull
+            @Override
+            public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View view = getLayoutInflater().from(parent.getContext()).inflate(R.layout.return_layout, parent, false);
+                return new RecyclerViewHolder(view);
+            }
+        };
+
+        mrecyclerView.setAdapter(adapter);
+        adapter.startListening();
     }
 }
