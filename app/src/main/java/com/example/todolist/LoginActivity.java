@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +42,11 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         loader = new ProgressDialog(this);
 
+        if(mAuth.getCurrentUser() != null){
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
+
         msignupScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(password)){
                     mloginPassword.setError("Password s Required");
                 }else{
-                    loader.setMessage("Login In Progress");
+                    loader.setMessage("LogIn in Progress");
                     loader.setCanceledOnTouchOutside(false);
                     loader.show();
 
@@ -89,6 +95,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent =  new Intent(this,RegistrationActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
-
     }
 }
