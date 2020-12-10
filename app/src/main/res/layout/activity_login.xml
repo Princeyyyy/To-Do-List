@@ -85,6 +85,7 @@
         android:layout_marginRight="70dp"
         android:fontFamily="@font/bungee"
         android:text="Login"
+        android:background="@drawable/inputs"
         android:textAllCaps="false"
         android:textColor="@color/white" />
 

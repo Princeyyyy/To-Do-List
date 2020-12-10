@@ -11,10 +11,11 @@
         android:layout_margin="10dp"
         android:text="Add Task"
         android:gravity="center"
-        android:background="@color/register_bk_color"
+        android:background="@drawable/inputs"
+        android:backgroundTint="@color/register_bk_color"
         android:padding="10dp"
         android:textColor="@color/white"
-        android:textStyle="italic"
+        android:textStyle="bold"
         android:textSize="20sp"/>
 
     <LinearLayout
@@ -108,7 +109,7 @@
                 android:text="Cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:background="@color/register_bk_color"
+                android:background="@drawable/inputs"
                 android:layout_margin="10dp"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
@@ -127,7 +128,7 @@
                 android:text="Save"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:background="@color/register_bk_color"
+                android:background="@drawable/inputs"
                 android:layout_margin="10dp"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
