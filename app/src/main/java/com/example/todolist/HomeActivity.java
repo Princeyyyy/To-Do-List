@@ -249,10 +249,10 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()){
-                            Toast.makeText(HomeActivity.this, "Task Deleted Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HomeActivity.this, "Task Marked As Completed", Toast.LENGTH_SHORT).show();
                         }else{
                             String error = task.getException().toString();
-                            Toast.makeText(HomeActivity.this, "Failed To Delete Task" + error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HomeActivity.this, "Failed To Complete Task" + error, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
