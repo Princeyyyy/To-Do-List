@@ -1,8 +1,5 @@
 package com.example.todolist;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,15 +7,15 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,8 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         msignupScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
-                startActivity(intent);
+                onRegistrationClick(v);
             }
         });
 
@@ -62,10 +58,10 @@ public class LoginActivity extends AppCompatActivity {
                 String password = mloginPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)){
-                    mloginEmail.setError("Email is Required");
+                    mloginEmail.setError("Email Required");
                 }
                 if (TextUtils.isEmpty(password)){
-                    mloginPassword.setError("Password s Required");
+                    mloginPassword.setError("Password Required");
                 }else{
                     loader.setMessage("LogIn in Progress");
                     loader.setCanceledOnTouchOutside(false);

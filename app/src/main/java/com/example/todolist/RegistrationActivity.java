@@ -1,8 +1,5 @@
 package com.example.todolist;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnLongClick;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -42,8 +43,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mloginScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                startActivity(intent);
+                onLoginClick(v);
             }
         });
 
@@ -54,7 +54,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 String password = mregistrationPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
-                    mregistrationEmail.setError("Email is Required");
+                    mregistrationEmail.setError("Email Required");
                     return;
                 }
                 if (TextUtils.isEmpty(password)){
@@ -88,7 +88,7 @@ public class RegistrationActivity extends AppCompatActivity {
     public void onLoginClick(View view){
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_left,android.R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.stay);
 
     }
 }
