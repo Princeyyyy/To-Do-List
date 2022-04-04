@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Add Task"
-        android:gravity="center"
         android:background="@drawable/inputs"
         android:backgroundTint="@color/register_bk_color"
+        android:gravity="center"
         android:padding="10dp"
+        android:text="@string/add_task"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,25 +32,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Task:"
+                android:layout_margin="10dp"
+                android:text="@string/task"
                 android:textColor="@color/black"
-                android:textStyle="italic"
-                android:layout_margin="10dp"/>
+                android:textStyle="italic" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4" >
+            android:layout_weight="4">
 
             <EditText
                 android:id="@+id/task"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Task"
+                android:layout_margin="10dp"
+                android:hint="@string/task"
                 android:textColor="@color/black"
-                android:textStyle="italic"
-                android:layout_margin="10dp"/>
+                android:textStyle="italic" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -69,25 +69,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description:"
+                android:layout_margin="10dp"
+                android:text="@string/description"
                 android:textColor="@color/black"
-                android:textStyle="italic"
-                android:layout_margin="10dp"/>
+                android:textStyle="italic" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4" >
+            android:layout_weight="4">
 
             <EditText
                 android:id="@+id/desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Description"
+                android:layout_margin="10dp"
+                android:hint="@string/description"
                 android:textColor="@color/black"
-                android:textStyle="italic"
-                android:layout_margin="10dp"/>
+                android:textStyle="italic" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -106,13 +106,13 @@
                 android:id="@+id/cancelBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancel"
+                android:layout_margin="10dp"
+                android:background="@drawable/inputs"
+                android:text="@string/cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:background="@drawable/inputs"
-                android:layout_margin="10dp"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
@@ -125,13 +125,13 @@
                 android:id="@+id/saveBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Save"
+                android:layout_margin="10dp"
+                android:background="@drawable/inputs"
+                android:text="@string/save"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:background="@drawable/inputs"
-                android:layout_margin="10dp"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

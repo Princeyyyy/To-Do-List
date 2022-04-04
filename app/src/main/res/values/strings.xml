@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">To Do List</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="new_user_register_now">New User? Register Now</string>
+    <string name="welcome_nback">Welcome\nBack:</string>
+    <string name="to_do_list_app">To Do List App</string>
+    <string name="your_nfirst_nsteps_to_njoining_nus">Your\nFirst\nSteps To\nJoining\nUs:</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account_log_in">Already Have An Account? Log In</string>
+    <string name="add_task">Add Task</string>
+    <string name="task">Task:</string>
+    <string name="description">Description:</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="dec_10_2020">Dec 10, 2020</string>
+    <string name="update_task">Update Task</string>
+    <string name="update">Update</string>
+    <string name="complete">Complete</string>
 </resources>

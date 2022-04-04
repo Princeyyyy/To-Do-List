@@ -22,10 +22,14 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
-    @BindView(R.id.loginEmail) EditText mloginEmail;
-    @BindView(R.id.loginPassword) EditText mloginPassword;
-    @BindView(R.id.loginButton) Button mloginButton;
-    @BindView(R.id.signupScreen) Button msignupScreen;
+    @BindView(R.id.loginEmail)
+    EditText mloginEmail;
+    @BindView(R.id.loginPassword)
+    EditText mloginPassword;
+    @BindView(R.id.loginButton)
+    Button mloginButton;
+    @BindView(R.id.signupScreen)
+    Button msignupScreen;
 
     private FirebaseAuth mAuth;
     private ProgressDialog loader;
@@ -39,57 +43,46 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         loader = new ProgressDialog(this);
 
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
         }
 
-        msignupScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRegistrationClick(v);
+        msignupScreen.setOnClickListener(this::onRegistrationClick);
+
+        mloginButton.setOnClickListener(v -> {
+            String email = mloginEmail.getText().toString().trim();
+            String password = mloginPassword.getText().toString().trim();
+
+            if (TextUtils.isEmpty(email)) {
+                mloginEmail.setError("Email Required");
             }
-        });
+            if (TextUtils.isEmpty(password)) {
+                mloginPassword.setError("Password Required");
+            } else {
+                loader.setMessage("LogIn in Progress");
+                loader.setCanceledOnTouchOutside(false);
+                loader.show();
 
-        mloginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = mloginEmail.getText().toString().trim();
-                String password = mloginPassword.getText().toString().trim();
-
-                if (TextUtils.isEmpty(email)){
-                    mloginEmail.setError("Email Required");
-                }
-                if (TextUtils.isEmpty(password)){
-                    mloginPassword.setError("Password Required");
-                }else{
-                    loader.setMessage("LogIn in Progress");
-                    loader.setCanceledOnTouchOutside(false);
-                    loader.show();
-
-                    mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
-                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                                finish();
-                                loader.dismiss();
-                            }else {
-                                String error = task.getException().toString();
-                                Toast.makeText(LoginActivity.this, "Login Failed " + error, Toast.LENGTH_SHORT).show();
-                                loader.dismiss();
-                            }
-                        }
-                    });
-                }
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                        loader.dismiss();
+                    } else {
+                        String error = task.getException().toString();
+                        Toast.makeText(LoginActivity.this, "Login Failed " + error, Toast.LENGTH_SHORT).show();
+                        loader.dismiss();
+                    }
+                });
             }
         });
     }
 
-    public void onRegistrationClick(View View){
-        Intent intent =  new Intent(this,RegistrationActivity.class);
+    public void onRegistrationClick(View View) {
+        Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right,R.anim.stay);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.stay);
     }
 }

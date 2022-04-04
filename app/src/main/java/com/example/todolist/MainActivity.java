@@ -18,14 +18,16 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int SPLASH = 3300;
 
-    @BindView(R.id.image) ImageView mImage;
-    @BindView(R.id.text) TextView mText;
+    @BindView(R.id.image)
+    ImageView mImage;
+    @BindView(R.id.text)
+    TextView mText;
     Animation topAnim, bottomAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
@@ -35,13 +37,10 @@ public class MainActivity extends AppCompatActivity {
         mImage.setAnimation(topAnim);
         mText.setAnimation(bottomAnim);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        },SPLASH);
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }, SPLASH);
     }
 }

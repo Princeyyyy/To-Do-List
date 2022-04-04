@@ -23,10 +23,14 @@ import butterknife.OnLongClick;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    @BindView(R.id.registrationEmail) EditText mregistrationEmail;
-    @BindView(R.id.registrationPassword) EditText mregistrationPassword;
-    @BindView(R.id.signupButton) Button msignupButton;
-    @BindView(R.id.loginScreen) Button mloginScreen;
+    @BindView(R.id.registrationEmail)
+    EditText mregistrationEmail;
+    @BindView(R.id.registrationPassword)
+    EditText mregistrationPassword;
+    @BindView(R.id.signupButton)
+    Button msignupButton;
+    @BindView(R.id.loginScreen)
+    Button mloginScreen;
 
     private FirebaseAuth mAuth;
     private ProgressDialog loader;
@@ -40,52 +44,40 @@ public class RegistrationActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         loader = new ProgressDialog(this);
 
-        mloginScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLoginClick(v);
+        mloginScreen.setOnClickListener(this::onLoginClick);
+
+        msignupButton.setOnClickListener(v -> {
+            String email = mregistrationEmail.getText().toString().trim();
+            String password = mregistrationPassword.getText().toString().trim();
+
+            if (TextUtils.isEmpty(email)) {
+                mregistrationEmail.setError("Email Required");
+                return;
             }
-        });
+            if (TextUtils.isEmpty(password)) {
+                mregistrationPassword.setError("Password Required");
+            } else {
+                loader.setMessage("Registration in Progress");
+                loader.setCanceledOnTouchOutside(false);
+                loader.show();
+                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
 
-        msignupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = mregistrationEmail.getText().toString().trim();
-                String password = mregistrationPassword.getText().toString().trim();
-
-                if (TextUtils.isEmpty(email)) {
-                    mregistrationEmail.setError("Email Required");
-                    return;
-                }
-                if (TextUtils.isEmpty(password)){
-                    mregistrationPassword.setError("Password Required");
-                }else{
-                    loader.setMessage("Registration in Progress");
-                    loader.setCanceledOnTouchOutside(false);
-                    loader.show();
-                    mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if (task.isSuccessful()){
-                                Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
-                                startActivity(intent);
-                                finish();
-                                loader.dismiss();
-                            }else {
-                                String error = task.getException().toString();
-                                Toast.makeText(RegistrationActivity.this, "Registration Failed " + error , Toast.LENGTH_SHORT).show();
-                                loader.dismiss();
-                            }
-                        }
-                    });
-                }
+                    if (task.isSuccessful()) {
+                        Intent intent = new Intent(RegistrationActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                        loader.dismiss();
+                    } else {
+                        String error = task.getException().toString();
+                        Toast.makeText(RegistrationActivity.this, "Registration Failed " + error, Toast.LENGTH_SHORT).show();
+                        loader.dismiss();
+                    }
+                });
             }
-
         });
     }
 
-    public void onLoginClick(View view){
+    public void onLoginClick(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left, R.anim.stay);

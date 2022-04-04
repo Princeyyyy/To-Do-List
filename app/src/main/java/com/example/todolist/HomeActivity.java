@@ -86,12 +86,7 @@ public class HomeActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference().child("tasks").child(onlineUserId);
 
 
-        mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addTask();
-            }
-        });
+        mFloatingActionButton.setOnClickListener(v -> addTask());
 
     }
 
@@ -133,18 +128,15 @@ public class HomeActivity extends AppCompatActivity {
                 loader.setCanceledOnTouchOutside(false);
                 loader.show();
 
-                Model model = new Model(mTask,mDescription,id,date);
-                reference.child(id).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(HomeActivity.this, "Task Has Been Added Successfully", Toast.LENGTH_SHORT).show();
-                            loader.dismiss();
-                        }else {
-                            String error = task.getException().toString();
-                            Toast.makeText(HomeActivity.this, "Failed " + error, Toast.LENGTH_SHORT).show();
-                            loader.dismiss();
-                        }
+                Model model = new Model(mTask, mDescription, id, date);
+                reference.child(id).setValue(model).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        Toast.makeText(HomeActivity.this, "Task Has Been Added Successfully", Toast.LENGTH_SHORT).show();
+                        loader.dismiss();
+                    } else {
+                        String error = task1.getException().toString();
+                        Toast.makeText(HomeActivity.this, "Failed " + error, Toast.LENGTH_SHORT).show();
+                        loader.dismiss();
                     }
                 });
             }
@@ -159,7 +151,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
 
         FirebaseRecyclerOptions<Model> options = new FirebaseRecyclerOptions.Builder<Model>()
-                .setQuery(reference,Model.class)
+                .setQuery(reference, Model.class)
                 .build();
 
         FirebaseRecyclerAdapter<Model, RecyclerViewHolder> adapter = new FirebaseRecyclerAdapter<Model, RecyclerViewHolder>(options) {
@@ -169,17 +161,14 @@ public class HomeActivity extends AppCompatActivity {
                 recyclerViewHolder.setTask(model.getTask());
                 recyclerViewHolder.setDescription(model.getDescription());
 
-                recyclerViewHolder.mview.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        key = getRef(i).getKey();
-                        task = model.getTask();
-                        description = model.getDescription();
+                recyclerViewHolder.mview.setOnClickListener(v -> {
+                    key = getRef(i).getKey();
+                    task = model.getTask();
+                    description = model.getDescription();
 
 
-                        updateTask();
+                    updateTask();
 
-                    }
                 });
             }
 
@@ -214,52 +203,40 @@ public class HomeActivity extends AppCompatActivity {
         Button delButton = view.findViewById(R.id.deleteBtn);
         Button updateButton = view.findViewById(R.id.updateBtn);
 
-        updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                task = mTask.getText().toString().trim();
-                description = mDescription.getText().toString().trim();
+        updateButton.setOnClickListener(v -> {
+            task = mTask.getText().toString().trim();
+            description = mDescription.getText().toString().trim();
 
-                String date = DateFormat.getDateInstance().format(new Date());
+            String date = DateFormat.getDateInstance().format(new Date());
 
-                Model model = new Model(task,description,key,date);
+            Model model = new Model(task, description, key, date);
 
-                reference.child(key).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(HomeActivity.this, "Task Has Been Updated Successfully", Toast.LENGTH_SHORT).show();
-                        }else{
-                            String error = task.getException().toString();
-                            Toast.makeText(HomeActivity.this, "Update Failed" + error, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+            reference.child(key).setValue(model).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(HomeActivity.this, "Task Has Been Updated Successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    String error = task.getException().toString();
+                    Toast.makeText(HomeActivity.this, "Update Failed" + error, Toast.LENGTH_SHORT).show();
+                }
+            });
 
-                dialog.dismiss();
+            dialog.dismiss();
 
-            }
         });
 
 
-        delButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reference.child(key).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
-                            Toast.makeText(HomeActivity.this, "Task Marked As Completed", Toast.LENGTH_SHORT).show();
-                        }else{
-                            String error = task.getException().toString();
-                            Toast.makeText(HomeActivity.this, "Failed To Complete Task" + error, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        delButton.setOnClickListener(v -> {
+            reference.child(key).removeValue().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(HomeActivity.this, "Task Marked As Completed", Toast.LENGTH_SHORT).show();
+                } else {
+                    String error = task.getException().toString();
+                    Toast.makeText(HomeActivity.this, "Failed To Complete Task" + error, Toast.LENGTH_SHORT).show();
+                }
+            });
 
 
-                dialog.dismiss();
-            }
+            dialog.dismiss();
         });
 
         dialog.show();
@@ -274,7 +251,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.logOut:
                 mAuth.signOut();
                 Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
